@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "wyy"
+    }
+  },
+  "defaultProject": "wyy",
+  "cli": {
+    "analytics": false
+  }
 }

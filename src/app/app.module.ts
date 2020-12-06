@@ -10,6 +10,7 @@ import { HomeComponent } from './view/home/home.component';
   declarations: [
     AppComponent,
     HomeComponent,
+    
   ],
   imports: [
     BrowserModule,

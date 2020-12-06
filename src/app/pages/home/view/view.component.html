@@ -1,1 +1,74 @@
-<p>view works!</p>
+<div id="home">
+    <div class="banner-wrap">
+
+        <app-wy-carousel (changeSlideHandle)="changeSlideHandle($event)" #wyCarousel [activeIndex] = "carouselActiveIndex">
+            <nz-carousel nzAutoPlay [nzDotRender]="wyCarousel.dotRef" (nzBeforeChange)="nzBeforeChange($event)">
+                <div nz-carousel-content *ngFor="let item of banner">
+                    <a [href]="item.url">
+                        <img [src]="item.imageUrl" alt="" srcset="">
+
+                    </a>
+                </div>
+            </nz-carousel>
+        </app-wy-carousel>
+    </div>
+
+    <div>
+        <div class="mList-left">
+            <nz-tabset [nzTabBarExtraContent]="extraTemplate">
+                <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name">
+
+                </nz-tab>
+              </nz-tabset>
+              <ng-template #extraTemplate>
+                <button nz-button>更多<i nz-icon nzType="right" nzTheme="outline"></i></button>
+    
+              </ng-template>
+              <div class="mListItemList">
+                  <div *ngFor="let mItem of mList" class="mListItem" >
+                    <nz-card style="width:185px;" [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEllipsis]" [nzHoverable]='true'>
+                        <nz-card-meta [nzTitle]="" [nzDescription]="mItem.name" [nzAvatar]="avatarTemplate"></nz-card-meta>
+                      </nz-card>
+                      <ng-template #avatarTemplate>
+                        <nz-avatar [nzSrc]="mItem.picUrl"></nz-avatar>
+                      </ng-template>
+                      <ng-template #coverTemplate>
+                        <img alt="example" [src]="mItem.picUrl" />
+                      </ng-template>
+                      <ng-template #actionSetting>
+                          <!-- 点击量： -->
+                        {{mItem.playCount | playCount}}
+                      </ng-template>
+                      <ng-template #actionEllipsis>
+                        <i nz-icon nzType="right-circle" nzTheme="fill"></i>
+                      </ng-template>
+                      
+                  </div>
+                
+              </div>
+              
+        </div>
+        <div class="mList-right">
+          <app-member-card></app-member-card>
+          <nz-card style="width:300px;" [nzBordered]="false" nzTitle="入住歌手" [nzExtra]="extraTemplate">
+            <nz-list nzItemLayout="horizontal" [nzLoading]="loading">
+              <nz-list-item *ngFor="let item of EnterSinger">
+                <nz-list-item-meta
+                  [nzAvatar]="item.picUrl"
+                  nzDescription=""
+                >
+                  <nz-list-item-meta-title>
+                    <a href="https://ng.ant.design">{{ item.name }}</a>
+                    <br>
+                    专辑数： <i><b>{{item.musicSize}}</b></i> 
+                  </nz-list-item-meta-title>
+                </nz-list-item-meta>
+              </nz-list-item>
+              <nz-list-empty *ngIf="EnterSinger.length === 0"></nz-list-empty>
+            </nz-list>
+          </nz-card>
+         
+        </div>
+    </div>
+
+</div>
