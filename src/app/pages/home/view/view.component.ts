@@ -1,10 +1,15 @@
-import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
+import { Component, OnInit, Injectable, ViewChild, Output, EventEmitter } from '@angular/core';
 import {HomeService} from '../../../services/home.service'
 import {SingerService} from '../../../services/singer.service'
 import { compileNgModule } from '@angular/compiler';
 import { Banner, HotTag, SongSheet, singer } from 'src/app/services/data-types/common.types';
 import { NzCarouselComponent } from 'ng-zorro-antd/carousel';
-
+import { ActivatedRoute } from '@angular/router';
+import { map, pluck, switchMap } from 'rxjs/internal/operators';
+import { SheetService } from '../../../services/sheet.service';
+import { Observable } from 'rxjs';
+import { Song } from '../../../services/data-types/common.types';
+// import {ActivatedRoute} from "../home-resolve.service"
 
 @Component({
   selector: 'app-view',
@@ -12,6 +17,7 @@ import { NzCarouselComponent } from 'ng-zorro-antd/carousel';
   styleUrls: ['./view.component.less']
 })
 export class ViewComponent implements OnInit {
+  @Output() onplay = new EventEmitter<number>()
   carouselActiveIndex = 0;
   public banner: Banner[];
 
@@ -21,39 +27,25 @@ export class ViewComponent implements OnInit {
   loading = false;
 
   @ViewChild(NzCarouselComponent, {static: true}) private nzCarousel: NzCarouselComponent
-  constructor(private homeServer: HomeService, private singerService: SingerService) { 
-    this.getBanners()
-    this.getHotTags()
-    this.getPersonalizedSheetList()
-    this.getSingerServiceList()
-  }
-
-  private getBanners () {
-    this.homeServer.getBanners().subscribe( banners => {
+  constructor(private homeServer: HomeService, private singerService: SingerService, private route: ActivatedRoute, private sheetService: SheetService) {
+     this.route.data.pipe(map(res => res.homeDatas)).subscribe(([banners, tags, sheets ,EnterSinger]) => {
+      console.log(banners)
       this.banner = banners
+       this.tabs = tags
+       this.mList = sheets
+       this.EnterSinger = EnterSinger
+     })
+    
+  }
+
+  getPlaySheet(id: number) {
+    console.log(id)
+    this.sheetService.playSheet(id).subscribe(res => {
+      console.log(res)
     })
   }
 
-  private getHotTags () {
-    this.homeServer.getHotTag().subscribe( tags => {
-      console.log(tags)
-      this.tabs = tags
-    })
-  }
-
-  private getPersonalizedSheetList () {
-    this.homeServer.getPerosonalSheetList().subscribe( sheets => {
-      console.log(sheets)
-      this.mList = sheets
-    })
-  }
-
-  private getSingerServiceList () {
-    this.singerService.getEnterSinger().subscribe( EnterSinger => {
-      console.log(EnterSinger)
-      this.EnterSinger = EnterSinger
-    })
-  }
+  
 
   nzBeforeChange({to}) {
     this.carouselActiveIndex = to

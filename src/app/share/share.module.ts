@@ -32,6 +32,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
     NzCardModule,
     WyUiModule,
     NzListModule,
+    
   ],
   exports: [
     CommonModule,
@@ -47,6 +48,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
     NzCardModule,
     WyUiModule,
     NzListModule,
+    
   ]
 })
 export class ShareModule { }

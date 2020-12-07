@@ -22,6 +22,9 @@ const defaultParams: singerParams = {
   providedIn: ServicesModule
 })
 export class SingerService {
+  getSingerServiceList(): any {
+    throw new Error("Method not implemented.");
+  }
 
   
   constructor(private http: HttpClient, @Inject(API_CONFIG) private uri: string) { }

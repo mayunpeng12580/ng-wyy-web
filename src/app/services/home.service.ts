@@ -9,6 +9,9 @@ import {map} from 'rxjs/internal/operators'
   providedIn: ServicesModule
 })
 export class HomeService {
+  getPersonalizedSheetList(): any {
+    throw new Error("Method not implemented.");
+  }
 
   
   constructor(private http: HttpClient, @Inject(API_CONFIG) private uri: string) { }
